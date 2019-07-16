@@ -59,10 +59,12 @@ public class MyComponent extends JComponent {
                         SIDE_LENGTH, SIDE_LENGTH);
                 squares[h][w] = cur;
                 if (h >= 5 && (h + w) % 2 == 1) {
-                    reds.add(new Piece(1, new ImageIcon("res/images/red_piece.png"), cur));
+                    reds.add(new Piece(1, new ImageIcon(getClass().getClassLoader().getResource(
+                            "images/red_piece.png")), cur));
                 }
                 if (h <= 2 && (h + w) % 2 == 1) {
-                    blacks.add(new Piece(0, new ImageIcon("res/images/black_piece1.png"), cur));
+                    blacks.add(new Piece(0, new ImageIcon(getClass().getClassLoader().getResource(
+                            "images/black_piece1.png")), cur));
                 }
             }
         }

@@ -13,7 +13,8 @@ public class MyFrame extends JFrame {
 
     private MyFrame(int width, int height){
         super.setTitle("Checkers");
-        super.setIconImage(new ImageIcon("res/images/red_piece.png").getImage());
+        super.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(
+                "images/red_piece.png")).getImage());
         setSize(width,height);
         component = new MyComponent(this);
         add(component);

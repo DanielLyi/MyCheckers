@@ -51,9 +51,11 @@ public class Piece extends ImageIcon {
     public void setToKing(){
         this.isKing = true;
         if(team==0){
-            super.setImage(new ImageIcon("res/images/black_piece_king.png").getImage());
+            super.setImage(new ImageIcon(getClass().getClassLoader().getResource(
+                    "images/black_piece_king.png")).getImage());
         } else if(team==1){
-            super.setImage(new ImageIcon("res/images/red_piece_king.png").getImage());
+            super.setImage(new ImageIcon(getClass().getClassLoader().getResource(
+                    "images/red_piece_king.png")).getImage());
         }
     }
 
@@ -86,12 +88,14 @@ public class Piece extends ImageIcon {
         isMoving = moving;
     }
 
-    public static ImageIcon getIconFromTeam(int t){
+    public static ImageIcon getDefIconFromTeam(int t){
         if(t==0){
-            return new ImageIcon("res/images/black_piece1");
+            return new ImageIcon(new Factory().getClass().getClassLoader().getResource(
+                    "images/black_piece1.png"));
         }
         else if(t==1){
-            return new ImageIcon("res/images/red_piece");
+            return new ImageIcon(new Factory().getClass().getClassLoader().getResource(
+                    "images/red_piece.png"));
         }
         else{
             return null;

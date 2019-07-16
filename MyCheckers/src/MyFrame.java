@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class MyFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 1200;
@@ -13,8 +14,8 @@ public class MyFrame extends JFrame {
 
     private MyFrame(int width, int height){
         super.setTitle("Checkers");
-        super.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(
-                "images/red_piece.png")).getImage());
+        super.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                "images/red_piece.png"))).getImage());
         setSize(width,height);
         component = new MyComponent(this);
         add(component);

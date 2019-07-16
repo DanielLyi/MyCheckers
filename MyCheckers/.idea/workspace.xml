@@ -8,19 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="19e56172-1408-41e3-b6bd-ba73daa7b877" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/MyCheckers_jar/MyCheckers.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/MyCheckers_jar/MyCheckers.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$AllUnfocusedEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$AllUnfocusedEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$MouseHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$MouseHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$RefreshAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$RefreshAction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/images/black_piece1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/black_piece1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/images/black_piece_king.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/black_piece_king.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/images/red_piece.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/red_piece.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/images/red_piece_king.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/red_piece_king.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MyComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
     </list>
@@ -36,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Piece.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="54" selection-start-line="54" selection-end-line="54" />
+            <state relative-caret-position="259">
+              <caret line="97" column="62" lean-forward="true" selection-start-line="97" selection-start-column="62" selection-end-line="97" selection-end-column="62" />
               <folding>
                 <element signature="e#1129#1130#0" expanded="true" />
                 <element signature="e#1168#1169#0" expanded="true" />
@@ -49,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MyFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="16" selection-end-column="38" />
+            <state relative-caret-position="264">
+              <caret line="16" column="50" lean-forward="true" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -109,9 +97,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/MyFrame.java" />
         <option value="$PROJECT_DIR$/src/MyComponent.java" />
         <option value="$PROJECT_DIR$/src/Piece.java" />
+        <option value="$PROJECT_DIR$/src/MyFrame.java" />
       </list>
     </option>
   </component>
@@ -137,44 +125,7 @@
             <path>
               <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
               <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
-              <item name="MyCheckers_jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -191,7 +142,7 @@
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="mycheckers" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/GitHub/Snake" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -277,7 +228,21 @@
       <option name="project" value="LOCAL" />
       <updated>1563301980786</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Made executable .jar file&#10;Improvements over resources">
+      <created>1563303897531</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1563303897531</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Improvements">
+      <created>1563314236484</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1563314236484</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -317,7 +282,9 @@
     <MESSAGE value="Marked src folder as source" />
     <MESSAGE value="Nothing special" />
     <MESSAGE value="yet Nothing special" />
-    <option name="LAST_COMMIT_MESSAGE" value="yet Nothing special" />
+    <MESSAGE value="Made executable .jar file&#10;Improvements over resources" />
+    <MESSAGE value="Improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improvements" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
@@ -354,13 +321,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MyFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="16" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/MyComponent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-748">
@@ -370,12 +330,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Piece.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        <state relative-caret-position="259">
+          <caret line="97" column="62" lean-forward="true" selection-start-line="97" selection-start-column="62" selection-end-line="97" selection-end-column="62" />
           <folding>
             <element signature="e#1129#1130#0" expanded="true" />
             <element signature="e#1168#1169#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MyFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="16" column="50" lean-forward="true" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
         </state>
       </provider>
     </entry>

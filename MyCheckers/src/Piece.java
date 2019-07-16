@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.Objects;
 
 public class Piece extends ImageIcon {
 
@@ -51,11 +52,11 @@ public class Piece extends ImageIcon {
     public void setToKing(){
         this.isKing = true;
         if(team==0){
-            super.setImage(new ImageIcon(getClass().getClassLoader().getResource(
-                    "images/black_piece_king.png")).getImage());
+            super.setImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                    "images/black_piece_king.png"))).getImage());
         } else if(team==1){
-            super.setImage(new ImageIcon(getClass().getClassLoader().getResource(
-                    "images/red_piece_king.png")).getImage());
+            super.setImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                    "images/red_piece_king.png"))).getImage());
         }
     }
 
@@ -90,12 +91,12 @@ public class Piece extends ImageIcon {
 
     public static ImageIcon getDefIconFromTeam(int t){
         if(t==0){
-            return new ImageIcon(new Factory().getClass().getClassLoader().getResource(
-                    "images/black_piece1.png"));
+            return new ImageIcon(Objects.requireNonNull(new Factory().getClass().getClassLoader().getResource(
+                    "images/black_piece1.png")));
         }
         else if(t==1){
-            return new ImageIcon(new Factory().getClass().getClassLoader().getResource(
-                    "images/red_piece.png"));
+            return new ImageIcon(Objects.requireNonNull(new Factory().getClass().getClassLoader().getResource(
+                    "images/red_piece.png")));
         }
         else{
             return null;

@@ -5,7 +5,7 @@ import java.util.Objects;
 public class MyFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 1200;
     private static final int DEFAULT_HEIGHT = 1000;
-    private MyComponent component;
+    private MyBoard board;
     private int redWins;
     private int blackWins;
     MyFrame(){
@@ -17,9 +17,9 @@ public class MyFrame extends JFrame {
         super.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(
                 "images/red_piece.png"))).getImage());
         setSize(width,height);
-        component = new MyComponent(this);
-        add(component);
-        component.repaint();
+        board = new MyBoard(this);
+        add(board);
+        board.repaint();
         blackWins=0;
         redWins=0;
         setScore();
@@ -27,11 +27,11 @@ public class MyFrame extends JFrame {
     }
 
     void refreshComponent(){
-        component.setVisible(false);
-        component = new MyComponent(this);
-        add(component);
-        component.setVisible(true);
-        component.repaint();
+        board.setVisible(false);
+        board = new MyBoard(this);
+        add(board);
+        board.setVisible(true);
+        board.repaint();
         setScore();
     }
 

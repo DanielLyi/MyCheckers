@@ -6,15 +6,15 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19e56172-1408-41e3-b6bd-ba73daa7b877" name="Default Changelist" comment="">
+    <list default="true" id="19e56172-1408-41e3-b6bd-ba73daa7b877" name="Default Changelist" comment="Made a text on button &quot;Restart game&quot;, not &quot;Start new game&quot; unless the game has ended.">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$AllUnfocusedEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$AllUnfocusedEvent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$MouseHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$MouseHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$RefreshAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$RefreshAction.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MyComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MyComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyFrame.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,15 +42,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/MyFrame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="24" column="19" lean-forward="true" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Factory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="242">
@@ -63,26 +54,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/out/production/MyCheckers/MyComponent.class">
+        <entry file="file://$PROJECT_DIR$/src/MyFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="-44">
+              <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/MyBoard.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
               <folding>
-                <element signature="e#0#41318#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#47281#47282#0" expanded="true" />
+                <element signature="e#47310#47311#0" expanded="true" />
+                <element signature="e#47342#47343#0" expanded="true" />
+                <element signature="e#47372#47373#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/MyComponent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="144" column="37" selection-start-line="144" selection-start-column="37" selection-end-line="144" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/out/production/MyCheckers/Factory.class">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-66">
@@ -102,14 +98,15 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Piece.java" />
-        <option value="$PROJECT_DIR$/src/MyFrame.java" />
         <option value="$PROJECT_DIR$/src/MyComponent.java" />
+        <option value="$PROJECT_DIR$/src/MyBoard.java" />
+        <option value="$PROJECT_DIR$/src/MyFrame.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="940" />
-    <option name="y" value="-15" />
+    <option name="x" value="91" />
+    <option name="y" value="-24" />
     <option name="width" value="960" />
     <option name="height" value="1035" />
   </component>
@@ -253,7 +250,14 @@
       <option name="project" value="LOCAL" />
       <updated>1563314471745</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Made a text on button &quot;Restart game&quot;, not &quot;Start new game&quot; unless the game has ended.">
+      <created>1563398903478</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1563398903479</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -265,7 +269,7 @@
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1147651" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1147651" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" weight="0.32909605" />
       <window_info anchor="bottom" id="Terminal" weight="0.32909605" />
@@ -273,7 +277,7 @@
       <window_info anchor="bottom" id="Messages" weight="0.32909605" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32909605" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32909605" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -295,7 +299,8 @@
     <MESSAGE value="yet Nothing special" />
     <MESSAGE value="Made executable .jar file&#10;Improvements over resources" />
     <MESSAGE value="Improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improvements" />
+    <MESSAGE value="Made a text on button &quot;Restart game&quot;, not &quot;Start new game&quot; unless the game has ended." />
+    <option name="LAST_COMMIT_MESSAGE" value="Made a text on button &quot;Restart game&quot;, not &quot;Start new game&quot; unless the game has ended." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
@@ -304,20 +309,22 @@
     <entry file="file://$PROJECT_DIR$/out/production/MyCheckers/images/black_piece1.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Piece.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="97" column="62" selection-start-line="97" selection-start-column="62" selection-end-line="97" selection-end-column="62" />
+          <folding>
+            <element signature="e#1129#1130#0" expanded="true" />
+            <element signature="e#1168#1169#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/out/production/MyCheckers/MyComponent.class">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
             <element signature="e#0#41318#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/out/production/MyCheckers/Factory.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-66">
-          <folding>
-            <element signature="e#0#418#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -332,28 +339,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Piece.java">
+    <entry file="file://$PROJECT_DIR$/src/MyFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="97" column="62" selection-start-line="97" selection-start-column="62" selection-end-line="97" selection-end-column="62" />
+        <state relative-caret-position="-44">
+          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MyBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
           <folding>
-            <element signature="e#1129#1130#0" expanded="true" />
-            <element signature="e#1168#1169#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#47281#47282#0" expanded="true" />
+            <element signature="e#47310#47311#0" expanded="true" />
+            <element signature="e#47342#47343#0" expanded="true" />
+            <element signature="e#47372#47373#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MyFrame.java">
+    <entry file="file://$PROJECT_DIR$/out/production/MyCheckers/Factory.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="24" column="19" lean-forward="true" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MyComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="144" column="37" selection-start-line="144" selection-start-column="37" selection-end-line="144" selection-end-column="37" />
+        <state relative-caret-position="-66">
+          <folding>
+            <element signature="e#0#418#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

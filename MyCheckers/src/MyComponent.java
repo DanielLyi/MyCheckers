@@ -73,8 +73,8 @@ public class MyComponent extends JComponent {
         RefreshAction action = new RefreshAction();
         button = new JButton(action);
         this.add(button) ;
-        button.setBounds(840,240,240,120);
-        button.setFont(new Font("Times New Roman",Font.PLAIN,40));
+        button.setBounds(840,240,264,120);
+        button.setFont(new Font("Times New Roman",Font.PLAIN,36));
         repaint();
     }
 
@@ -141,8 +141,8 @@ public class MyComponent extends JComponent {
             g2.fill(new Ellipse2D.Double(MARG_FROM_EDGE + 10 * SIDE_LENGTH, MARG_FROM_EDGE + 5 * SIDE_LENGTH,
                     SIDE_LENGTH, SIDE_LENGTH));
         }
-        if (winner != -1) {
-
+        if (winner != -1) { //someone won
+            button.setText("Start new game");
             Font f = new Font("Times New Roman", Font.BOLD, 120);
             g2.setPaint(Color.WHITE);
             Rectangle2D bounds = f.getStringBounds("WINNER IS BLACK!", g2.getFontRenderContext());
@@ -164,6 +164,8 @@ public class MyComponent extends JComponent {
                     SIDE_LENGTH * 2, SIDE_LENGTH * 2));
             repaint();
 
+        } else{//no winners yet
+            button.setText("Restart game");
         }
     }
 

@@ -11,6 +11,7 @@ public class Piece extends ImageIcon {
     private boolean inFocus;
     private boolean isKing;
     private boolean isMoving;
+    private boolean needsToKill;
 
     /**
      * Construct a new com.daniel.Piece object
@@ -27,6 +28,7 @@ public class Piece extends ImageIcon {
         }
         super.setImage(icon.getImage());
         this.pos = rect;
+        needsToKill = false;
     }
 
     public void setPosition(Rectangle2D.Double newPosition){
@@ -48,6 +50,13 @@ public class Piece extends ImageIcon {
         return super.getImage();
     }
 
+    public void setNeedsToKill(boolean needsToKill) {
+        this.needsToKill = needsToKill;
+    }
+
+    public boolean isNeedToKill() {
+        return needsToKill;
+    }
 
     public void setToKing(){
         this.isKing = true;

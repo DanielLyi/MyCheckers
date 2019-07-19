@@ -16,7 +16,8 @@ public class MyBoard extends JComponent {
     private static final int SIDE_LENGTH = 80;
     private static final int MARG_FROM_EDGE = 80;
     private Rectangle2D.Double[][] squares;
-    private ArrayList<Rectangle2D.Double> availableSquares;
+    private ArrayList<Rectangle2D.Double> availableSquaresToGo;
+    private ArrayList<Rectangle2D.Double> availableSquaresToKill;
     private ArrayList<Piece> blacks;
     private ArrayList<Piece> reds;
     private boolean showAvailiableSquares;
@@ -25,6 +26,9 @@ public class MyBoard extends JComponent {
     private int teamWithTurn;
     private int winner = -1;
     private boolean needsToKill;
+    private boolean optionNeedToKill;
+    private boolean choosing;
+    private boolean showOnlyKillSquares;
     private Piece pieceThatNeedsToKill;
     private MyFrame frame;
     private JButton button;
@@ -32,7 +36,8 @@ public class MyBoard extends JComponent {
     MyBoard(MyFrame frame) {
         this.frame = frame;
         squares = new Rectangle2D.Double[8][8];
-        availableSquares = new ArrayList<>();
+        availableSquaresToGo = new ArrayList<>();
+        availableSquaresToKill = new ArrayList<>();
         pieceThatNeedsToKill = null;
         blacks = new ArrayList<>(12);
         blacks.trimToSize();
@@ -41,6 +46,10 @@ public class MyBoard extends JComponent {
         teamWithTurn = 1;
         isEnded = false;
         button = null;
+        needsToKill = false;
+        optionNeedToKill = true;
+        choosing = true;
+        showAvailiableSquares = false;
         initBoard();
         InputMap inputMap = this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         inputMap.put(KeyStroke.getKeyStroke("ctrl U"), "esc_pressed");
@@ -73,9 +82,9 @@ public class MyBoard extends JComponent {
 
         RefreshAction action = new RefreshAction();
         button = new JButton(action);
-        this.add(button) ;
-        button.setBounds(840,240,264,120);
-        button.setFont(new Font("Times New Roman",Font.PLAIN,36));
+        this.add(button);
+        button.setBounds(840, 240, 264, 120);
+        button.setFont(new Font("Times New Roman", Font.PLAIN, 36));
         repaint();
     }
 
@@ -90,12 +99,21 @@ public class MyBoard extends JComponent {
                 } else {
                     g2.setPaint(Color.WHITE);
                     if (showAvailiableSquares) {
+                        if (!showOnlyKillSquares) {
+                            for (Rectangle2D.Double rect :
+                                    availableSquaresToGo) {
+                                Rectangle2D.Double currentRect = getSquareWithIJCoordinates(h, w);
+                                if (currentRect.equals(rect)) {
 
+                                    g2.setPaint(Color.ORANGE);
+                                }
+                            }
+                        }
                         for (Rectangle2D.Double rect :
-                                availableSquares) {
+                                availableSquaresToKill) {
                             Rectangle2D.Double currentRect = getSquareWithIJCoordinates(h, w);
                             if (currentRect.equals(rect)) {
-                                g2.setPaint(Color.ORANGE);
+                                g2.setPaint(Color.RED);
                             }
                         }
                     }
@@ -105,9 +123,17 @@ public class MyBoard extends JComponent {
                 for (Piece red : reds) {
                     if (red.getPosition().equals(cur)) {
                         if (!red.isInFocus()) {
-                            g.drawImage(red.getImage(), MARG_FROM_EDGE + w * SIDE_LENGTH,
-                                    MARG_FROM_EDGE + h * SIDE_LENGTH,
-                                    SIDE_LENGTH, SIDE_LENGTH, g2.getColor(), null);
+                            if (!red.isNeedToKill()) {
+                                g.drawImage(red.getImage(), MARG_FROM_EDGE + w * SIDE_LENGTH,
+                                        MARG_FROM_EDGE + h * SIDE_LENGTH,
+                                        SIDE_LENGTH, SIDE_LENGTH, g2.getColor(), null);
+                            } else {
+                                System.out.println("Red has to kill another img");
+                                g.drawImage(red.getImage()/*.getScaledInstance((int)(SIDE_LENGTH*1.2),
+                                        (int)(SIDE_LENGTH*1.2),Image.SCALE_DEFAULT)*/, MARG_FROM_EDGE + w * SIDE_LENGTH,
+                                        MARG_FROM_EDGE + h * SIDE_LENGTH,
+                                        SIDE_LENGTH, SIDE_LENGTH, Color.RED.darker().darker(), null);
+                            }
                         } else {
                             g.drawImage(red.getImage(), MARG_FROM_EDGE + w * SIDE_LENGTH + SIDE_LENGTH / 4,
                                     MARG_FROM_EDGE + h * SIDE_LENGTH + SIDE_LENGTH / 4,
@@ -118,9 +144,15 @@ public class MyBoard extends JComponent {
                 for (Piece black : blacks) {
                     if (black.getPosition().equals(cur)) {
                         if (!black.isInFocus()) {
-                            g.drawImage(black.getImage(), MARG_FROM_EDGE + w * SIDE_LENGTH,
-                                    MARG_FROM_EDGE + h * SIDE_LENGTH,
-                                    SIDE_LENGTH, SIDE_LENGTH, g2.getColor(), null);
+                            if (!black.isNeedToKill()) {
+                                g.drawImage(black.getImage(), MARG_FROM_EDGE + w * SIDE_LENGTH,
+                                        MARG_FROM_EDGE + h * SIDE_LENGTH,
+                                        SIDE_LENGTH, SIDE_LENGTH, g2.getColor(), null);
+                            } else {
+                                g.drawImage(black.getImage(), MARG_FROM_EDGE + w * SIDE_LENGTH,
+                                        MARG_FROM_EDGE + h * SIDE_LENGTH,
+                                        SIDE_LENGTH, SIDE_LENGTH, Color.RED.darker(), null);
+                            }
                         } else {
                             g.drawImage(black.getImage(), MARG_FROM_EDGE + w * SIDE_LENGTH + SIDE_LENGTH / 4
                                     , MARG_FROM_EDGE + h * SIDE_LENGTH + SIDE_LENGTH / 4,
@@ -130,7 +162,6 @@ public class MyBoard extends JComponent {
                 }
             }
         }
-
 
 
         if (!isEnded) { //draw a circle of team that has a turn if game goes
@@ -165,7 +196,7 @@ public class MyBoard extends JComponent {
                     SIDE_LENGTH * 2, SIDE_LENGTH * 2));
             repaint();
 
-        } else{//no winners yet
+        } else {//no winners yet
             button.setText("Restart game");
         }
     }
@@ -231,35 +262,6 @@ public class MyBoard extends JComponent {
         return null;
     }
 
-    private void setFocusedPiece(Piece p) {
-        for (Piece r :
-                reds) {
-            if (r.isInFocus()) {
-                r.setFocused(false);
-            }
-        }
-        for (Piece b :
-                blacks) {
-            if (b.isInFocus()) {
-                b.setFocused(false);
-            }
-        }
-        p.setFocused(true);
-        availableSquares.clear();
-        if (!p.isKing()) {
-            if (getPossibleKillSquaresRegular(p) != null) {
-                showAvailiableSquares = true;
-                availableSquares.addAll(getPossibleKillSquaresRegular(p));
-            }
-        } else {
-            if (getPossibleKillSquaresKing(p) != null) {
-                showAvailiableSquares = true;
-                availableSquares.addAll(Objects.requireNonNull(getPossibleKillSquaresKing(p)));
-                repaint();
-            }
-        }
-    }
-
     private ArrayList<Piece> getPieceListWithEnemyTeam(int t) {
         if (t == 1) {
             return blacks;
@@ -285,7 +287,14 @@ public class MyBoard extends JComponent {
         return null;
     }
 
-    private void setAllUnfocused() {
+    private void setFocusedPiece(Piece p) {
+        if (optionNeedToKill) {
+            if (!availableSquaresToKill.isEmpty()) {
+                if (!teamCanKill().contains(p)) {
+                    return;
+                }
+            }
+        }
         for (Piece r :
                 reds) {
             if (r.isInFocus()) {
@@ -298,8 +307,48 @@ public class MyBoard extends JComponent {
                 b.setFocused(false);
             }
         }
+        p.setFocused(true);
+        availableSquaresToGo.clear();
+        availableSquaresToKill.clear();
+        if (!p.isKing()) {
+            if (getPossibleKillSquaresRegular(p) != null) {
+                showAvailiableSquares = true;
+                availableSquaresToGo.addAll(getPossibleToGoSquaresRegular(p));
+                availableSquaresToKill.addAll(getPossibleKillSquaresRegular(p));
+            }
+        } else {
+            if (getPossibleKillSquaresKing(p) != null) {
+                showAvailiableSquares = true;
+                availableSquaresToGo.addAll(Objects.requireNonNull(getPossibleToGoSquaresKing(p)));
+                availableSquaresToKill.addAll(getPossibleKillSquaresKing(p));
+            }
+        }
+        repaint();
+    }
+
+    private void setAllUnfocused() {
+        for (Piece r :
+                reds) {
+            if (r.isInFocus()) {
+                r.setFocused(false);
+            }
+            if (optionNeedToKill) {
+                r.setNeedsToKill(false);
+            }
+        }
+        for (Piece b :
+                blacks) {
+            if (b.isInFocus()) {
+                b.setFocused(false);
+            }
+            if (optionNeedToKill) {
+                b.setNeedsToKill(false);
+            }
+        }
         showAvailiableSquares = false;
-        availableSquares.clear();
+        availableSquaresToGo.clear();
+        availableSquaresToKill.clear();
+        repaint();
     }
 
     private void changeTeamTurn() {
@@ -325,6 +374,8 @@ public class MyBoard extends JComponent {
                     if (getPieceWithSquare(squares[row - 1][column - 1]) == null) {
                         if (squares[row - 1][column - 1].equals(rect)) {
                             p.setPosition(squares[row - 1][column - 1]);
+                            choosing = true;
+                            p.setNeedsToKill(false);
                             p.setMoving(false);
                             changeTeamTurn();
                             return;
@@ -335,6 +386,8 @@ public class MyBoard extends JComponent {
                             if (getPieceWithSquare(squares[row - 2][column - 2]) == null) {
                                 if (squares[row - 2][column - 2].equals(rect)) {
                                     p.setPosition(squares[row - 2][column - 2]);
+                                    choosing = true;
+                                    p.setNeedsToKill(false);
                                     blacks.remove(getPieceWithSquare(squares[row - 1][column - 1]));
                                     p.setMoving(true);
                                     repaint();
@@ -349,6 +402,8 @@ public class MyBoard extends JComponent {
                     if (getPieceWithSquare(squares[row - 1][column + 1]) == null) {
                         if (squares[row - 1][column + 1].equals(rect)) {
                             p.setPosition(squares[row - 1][column + 1]);
+                            choosing = true;
+                            p.setNeedsToKill(false);
                             p.setMoving(false);
                             changeTeamTurn();
                             return;
@@ -359,6 +414,8 @@ public class MyBoard extends JComponent {
                             if (getPieceWithSquare(squares[row - 2][column + 2]) == null) {
                                 if (rect.equals(squares[row - 2][column + 2])) {
                                     p.setPosition(squares[row - 2][column + 2]);
+                                    choosing = true;
+                                    p.setNeedsToKill(false);
                                     blacks.remove(getPieceWithSquare(squares[row - 1][column + 1]));
                                     p.setMoving(true);
                                     repaint();
@@ -381,6 +438,8 @@ public class MyBoard extends JComponent {
                     if (getPieceWithSquare(squares[row + 1][column - 1]) == null) {
                         if (squares[row + 1][column - 1].equals(rect)) {
                             p.setPosition(squares[row + 1][column - 1]);
+                            choosing = true;
+                            p.setNeedsToKill(false);
                             p.setMoving(false);
                             changeTeamTurn();
                             return;
@@ -391,6 +450,8 @@ public class MyBoard extends JComponent {
                             if (getPieceWithSquare(squares[row + 2][column - 2]) == null) {
                                 if (rect.equals(squares[row + 2][column - 2])) {
                                     p.setPosition(squares[row + 2][column - 2]);
+                                    choosing = true;
+                                    p.setNeedsToKill(false);
                                     reds.remove(getPieceWithSquare(squares[row + 1][column - 1]));
                                     p.setMoving(true);
                                     repaint();
@@ -405,6 +466,8 @@ public class MyBoard extends JComponent {
                     if (getPieceWithSquare(squares[row + 1][column + 1]) == null) {
                         if (squares[row + 1][column + 1].equals(rect)) {
                             p.setPosition(squares[row + 1][column + 1]);
+                            choosing = true;
+                            p.setNeedsToKill(false);
                             p.setMoving(false);
                             changeTeamTurn();
                             return;
@@ -415,6 +478,8 @@ public class MyBoard extends JComponent {
                             if (getPieceWithSquare(squares[row + 2][column + 2]) == null) {
                                 if (rect.equals(squares[row + 2][column + 2])) {
                                     p.setPosition(squares[row + 2][column + 2]);
+                                    p.setNeedsToKill(false);
+                                    choosing = true;
                                     reds.remove(getPieceWithSquare(squares[row + 1][column + 1]));
                                     p.setMoving(true);
                                     repaint();
@@ -498,6 +563,81 @@ public class MyBoard extends JComponent {
                                 }
                             }
                         }
+                    }
+                }
+            }
+
+            return possibles;
+
+        } else {
+            throw new NullPointerException();
+        }
+
+    }
+
+    private ArrayList<Rectangle2D.Double> getPossibleToGoSquaresRegular(Piece p)
+            throws NullPointerException {
+        ArrayList<Rectangle2D.Double> possibles = new ArrayList<>();
+        if (p != null) {
+            int row = getRowWithSquare(p.getPosition());
+            int column = getColumnWithSquare(p.getPosition());
+            if (p.getTeam() == 1) { //Red team
+                if (row >= 1 && column >= 1) { //if someone is there
+                    if (getPieceWithSquare(getSquareWithIJCoordinates(row - 1, column - 1)) != null) {
+                        if (getPieceWithSquare(getSquareWithIJCoordinates(row - 1, column - 1)).getTeam() == 0) {
+                            if (row >= 2 && column >= 2) {
+                                if (getPieceWithSquare(getSquareWithIJCoordinates(row - 2, column - 2)) == null) {
+                                    possibles.add(getSquareWithIJCoordinates(row - 2, column - 2));
+                                }
+                            }
+                        }
+                    } else { //if square is empty
+                        possibles.add(getSquareWithIJCoordinates(row - 1, column - 1));
+                    }
+                }
+
+                if (row >= 1 && column <= 6) {
+                    if (getPieceWithSquare(getSquareWithIJCoordinates(row - 1, column + 1)) != null) {
+                        //if someone is there
+                        if (getPieceWithSquare(getSquareWithIJCoordinates(row - 1, column + 1)).getTeam() == 0) {
+                            if (row >= 2 && column <= 5) {
+                                if (getPieceWithSquare(getSquareWithIJCoordinates(row - 2, column + 2)) == null) {
+                                    possibles.add(getSquareWithIJCoordinates(row - 2, column + 2));
+                                }
+                            }
+                        }
+                    } else { //if square is empty
+                        possibles.add(getSquareWithIJCoordinates(row - 1, column + 1));
+                    }
+                }
+            } else if (p.getTeam() == 0) { //Black team
+                if (row <= 6 && column >= 1) {
+                    if (getPieceWithSquare(getSquareWithIJCoordinates(row + 1, column - 1)) != null) {
+                        //if square is empty
+                        if (getPieceWithSquare(getSquareWithIJCoordinates(row + 1, column - 1)).getTeam() == 1) {
+                            if (row <= 5 && column >= 2) {
+                                if (getPieceWithSquare(getSquareWithIJCoordinates(row + 2, column - 2)) == null) {
+                                    possibles.add(getSquareWithIJCoordinates(row + 2, column - 2));
+                                }
+                            }
+                        }
+                    } else { //if square is empty
+                        possibles.add(getSquareWithIJCoordinates(row + 1, column - 1));
+                    }
+                }
+
+                if (row <= 6 && column <= 6) {
+                    if (getPieceWithSquare(getSquareWithIJCoordinates(row + 1, column + 1)) != null) {
+                        //if square is empty
+                        if (getPieceWithSquare(getSquareWithIJCoordinates(row + 1, column + 1)).getTeam() == 1) {
+                            if (row <= 5 && column <= 5) {
+                                if (getPieceWithSquare(getSquareWithIJCoordinates(row + 2, column + 2)) == null) {
+                                    possibles.add(getSquareWithIJCoordinates(row + 2, column + 2));
+                                }
+                            }
+                        }
+                    } else { //if square is empty
+                        possibles.add(getSquareWithIJCoordinates(row + 1, column + 1));
                     }
                 }
             }
@@ -674,6 +814,170 @@ public class MyBoard extends JComponent {
         return null;
     }
 
+    private ArrayList<Rectangle2D.Double> getPossibleToGoSquaresKing(Piece p) {
+        if (p.isKing()) {//necessary condition
+            var possibles = new ArrayList<Rectangle2D.Double>();
+            int row = getRowWithSquare(p.getPosition());
+            int column = getColumnWithSquare(p.getPosition());
+            /*for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if((i+j==row+column||i-j==row-column)&&(i!=row||j!=column)){
+                        if(getPieceWithSquare(squares[i][j])==null){
+                            availables.add(squares[i][j]);
+                        }
+                    }
+                }
+            }*/
+            boolean killed = false;
+            for (int i = 1; true; i++) {
+
+                if (row - i >= 0 && column - i >= 0) {
+                    Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row - i, column - i);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
+                    if (!killed) { //not killed
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                            /*availables.add(currentSquare);*/
+                        } else if (currentPiece.getTeam() != p.getTeam()) {
+                            if (row - i - 1 >= 0 && column - i - 1 >= 0 &&
+                                    getPieceWithSquare(getSquareWithIJCoordinates(row - i - 1, column - i - 1)) ==
+                                            null) {
+
+                                killed = true;
+                                /*possibles.add(getSquareWithIJCoordinates(row - i - 1, column - i - 1));*/
+
+
+                            } else {
+                                break;
+                            }
+                        } else {
+                            break;
+                        }
+                    } else { //killed
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                            /*availables.add(currentSquare);*/
+                        } else {
+                            killed = false;
+                            break;
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+            killed = false;
+//Second iteration
+            for (int i = 1; true; i++) {
+                if (row + i <= 7 && column - i >= 0) {
+                    Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row + i, column - i);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
+                    if (!killed) {
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                        } else if (currentPiece.getTeam() != p.getTeam()) {
+                            if (row + i + 1 <= 7 && column - i - 1 >= 0 &&
+                                    getPieceWithSquare(getSquareWithIJCoordinates(row + i + 1, column - i - 1)) ==
+                                            null) {
+                                killed = true;
+
+                            } else {
+                                break;
+                            }
+
+                        } else {
+                            break;
+                        }
+                    } else { //killed
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                            /*availables.add(currentSquare);*/
+                        } else {
+                            killed = false;
+                            break;
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+            killed = false;
+//Third iteration
+            for (int i = 1; true; i++) {
+                if (row + i <= 7 && column + i <= 7) {
+                    Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row + i, column + i);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
+                    if (!killed) {
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                        } else if (currentPiece.getTeam() != p.getTeam()) {
+                            if (row + i + 1 <= 7 && column + i + 1 <= 7) {
+                                if (getPieceWithSquare(getSquareWithIJCoordinates(row + i + 1, column + i + 1)) ==
+                                        null) {
+                                    killed = true;
+                                }
+                            } else {
+                                break;
+                            }
+
+                        } else {
+                            break;
+                        }
+                    } else { //killed
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                            /*availables.add(currentSquare);*/
+                        } else {
+                            killed = false;
+                            break;
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+            killed = false;
+//Fourth iteration
+            for (int i = 1; true; i++) {
+                if (row - i >= 0 && column + i <= 7) {
+                    Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row - i, column + i);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
+                    if (!killed) {
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                        } else if (currentPiece.getTeam() != p.getTeam()) {
+                            if (row - i - 1 >= 0 && column + i + 1 <= 7 &&
+                                    getPieceWithSquare(getSquareWithIJCoordinates(row - i - 1, column + i + 1)) ==
+                                            null) {
+                                killed = true;
+
+                            } else {
+                                break;
+                            }
+
+                        } else {
+                            break;
+                        }
+                    } else { //killed
+                        if (currentPiece == null) {
+                            possibles.add(currentSquare);
+                            /*availables.add(currentSquare);*/
+                        } else {
+                            killed = false;
+                            break;
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+
+
+            return possibles;
+        }
+        return null;
+    }
+
     private void moveKing(Piece p, Rectangle2D.Double rect) {
         if (p.isKing()) {
             /*ArrayList<Rectangle2D.Double> availables = new ArrayList<>();*/
@@ -702,6 +1006,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (currentSquare.equals(rect)) {
                                 p.setPosition(rect);
+                                p.setNeedsToKill(false);
+                                choosing = true;
                                 changeTeamTurn();
                                 return;
                             }
@@ -714,6 +1020,8 @@ public class MyBoard extends JComponent {
                                 killed = true;
                                 if (rect.equals(getSquareWithIJCoordinates(row - i - 1, column - i - 1))) {
                                     p.setPosition(getSquareWithIJCoordinates(row - i - 1, column - i - 1));
+                                    choosing = true;
+                                    p.setNeedsToKill(false);
                                     getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled1);
                                     p.setMoving(true);
                                     changeTeamTurn();
@@ -731,6 +1039,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (currentSquare.equals(rect)) {
                                 p.setPosition(rect);
+                                choosing = true;
+                                p.setNeedsToKill(false);
                                 changeTeamTurn();
                                 getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled1);
                                 p.setMoving(true);
@@ -756,6 +1066,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (rect.equals(currentSquare)) {
                                 p.setPosition(currentSquare);
+                                p.setNeedsToKill(false);
+                                choosing = true;
                                 changeTeamTurn();
                                 return;
                             }
@@ -767,6 +1079,8 @@ public class MyBoard extends JComponent {
                                 killed = true;
                                 if (rect.equals(getSquareWithIJCoordinates(row + i + 1, column - i - 1))) {
                                     p.setPosition(getSquareWithIJCoordinates(row + i + 1, column - i - 1));
+                                    choosing = true;
+                                    p.setNeedsToKill(false);
                                     getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled2);
                                     p.setMoving(true);
                                     changeTeamTurn();
@@ -783,6 +1097,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (currentSquare.equals(rect)) {
                                 p.setPosition(rect);
+                                choosing = true;
+                                p.setNeedsToKill(false);
                                 changeTeamTurn();
                                 getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled2);
                                 p.setMoving(true);
@@ -808,6 +1124,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (rect.equals(currentSquare)) {
                                 p.setPosition(currentSquare);
+                                choosing = true;
+                                p.setNeedsToKill(false);
                                 changeTeamTurn();
                                 return;
                             }
@@ -819,6 +1137,8 @@ public class MyBoard extends JComponent {
                                 killed = true;
                                 if (rect.equals(getSquareWithIJCoordinates(row + i + 1, column + i + 1))) {
                                     p.setPosition(getSquareWithIJCoordinates(row + i + 1, column + i + 1));
+                                    choosing = true;
+                                    p.setNeedsToKill(false);
                                     getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled3);
                                     p.setMoving(true);
                                     changeTeamTurn();
@@ -835,6 +1155,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (currentSquare.equals(rect)) {
                                 p.setPosition(rect);
+                                choosing = true;
+                                p.setNeedsToKill(false);
                                 changeTeamTurn();
                                 getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled3);
                                 p.setMoving(true);
@@ -860,6 +1182,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (rect.equals(currentSquare)) {
                                 p.setPosition(currentSquare);
+                                choosing = true;
+                                p.setNeedsToKill(false);
                                 changeTeamTurn();
                                 return;
                             }
@@ -871,6 +1195,8 @@ public class MyBoard extends JComponent {
                                 killed = true;
                                 if (rect.equals(getSquareWithIJCoordinates(row - i - 1, column + i + 1))) {
                                     p.setPosition(getSquareWithIJCoordinates(row - i - 1, column + i + 1));
+                                    choosing = true;
+                                    p.setNeedsToKill(false);
                                     getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled4);
                                     p.setMoving(true);
                                     changeTeamTurn();
@@ -887,6 +1213,8 @@ public class MyBoard extends JComponent {
                         if (currentPiece == null) {
                             if (currentSquare.equals(rect)) {
                                 p.setPosition(rect);
+                                choosing = true;
+                                p.setNeedsToKill(false);
                                 changeTeamTurn();
                                 getPieceListWithEnemyTeam(p.getTeam()).remove(toBeKilled4);
                                 p.setMoving(true);
@@ -909,6 +1237,69 @@ public class MyBoard extends JComponent {
         }
     }
 
+    private boolean canNotMove() {
+        int team = teamWithTurn;
+        ArrayList<Piece> pieces;
+        boolean hasNoMoves = true;
+        if (team == 1) {
+            pieces = reds;
+        } else {
+            pieces = blacks;
+        }
+        for (Piece p :
+                pieces) {
+            if (p != null) {
+                if (!p.isKing()) {
+                    if (!getPossibleToGoSquaresRegular(p).isEmpty()) { //if there is a square to go
+                        hasNoMoves = false;
+                        break;
+                    }
+                } else {
+                    if (!getPossibleToGoSquaresKing(p).isEmpty()) { //if there is a square to go
+                        hasNoMoves = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return hasNoMoves;
+
+    }
+
+    private ArrayList<Piece> teamCanKill() {
+        var piecesThatCanKill = new ArrayList<Piece>(12);
+        var team = new ArrayList<Piece>();
+        if (teamWithTurn == 0) {
+            team = blacks;
+        } else if (teamWithTurn == 1) {
+            team = reds;
+        }
+        for (Piece p :
+                team) {
+            if (!p.isKing()) {
+                if (!getPossibleKillSquaresRegular(p).isEmpty()) {
+                    piecesThatCanKill.add(p);
+                    p.setNeedsToKill(true);
+                }
+            } else {
+                if (!getPossibleKillSquaresKing(p).isEmpty()) {
+                    piecesThatCanKill.add(p);
+                    p.setNeedsToKill(true);
+                }
+            }
+        }
+        return piecesThatCanKill;
+
+    }
+
+    public int getWinner() {
+        return winner;
+    }
+
+    public boolean isEnded() {
+        return isEnded;
+    }
+
     private class AllUnfocusedEvent extends AbstractAction {
 
         public AllUnfocusedEvent() {
@@ -923,198 +1314,287 @@ public class MyBoard extends JComponent {
         }
     }
 
-
     private class MouseHandler extends MouseAdapter {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (!needsToKill) {
-                int x = e.getX();
-                int y = e.getY();
-                Rectangle2D.Double currentRect;
-                Point2D.Double currentPoint = new Point2D.Double(x, y);
-                if (getSquareWithPoint(currentPoint) != null) {
-                    currentRect = getSquareWithPoint(currentPoint);
-                    Piece curPiece = getPieceWithSquare(currentRect);
+            if (!canNotMove()) {
+                if (!needsToKill) {
+                    int x = e.getX();
+                    int y = e.getY();
+                    Rectangle2D.Double currentRect;
+                    Point2D.Double currentPoint = new Point2D.Double(x, y);
+                    if (getSquareWithPoint(currentPoint) != null) {
 
-                    if (curPiece != null) {
-                        if (curPiece.getTeam() == teamWithTurn) {
-                            if (!curPiece.isInFocus()) {
-                                setFocusedPiece(curPiece);
-                            } else {
-                                setAllUnfocused();
+                        currentRect = getSquareWithPoint(currentPoint);
+                        Piece curPiece = getPieceWithSquare(currentRect);
+                        Piece focPiece = getFocusedPiece();
+                        if (optionNeedToKill) {
+                            if (choosing) {
+                                if (!teamCanKill().isEmpty()) {
+                                    showOnlyKillSquares = true;
+                                    for (Piece p :
+                                            teamCanKill()) {
+
+                                        p.setNeedsToKill(true);
+                                        repaint();
+                                    }
+                                    if (!teamCanKill().contains(curPiece)) {
+
+                                        return;
+                                    }
+                                    choosing = false;
+
+                                }
                             }
-                            repaint();
                         }
-                    } else if (getFocusedPiece() != null) {
-                        Piece focusedPiece = getFocusedPiece();
 
-                        if (!focusedPiece.isKing()) { //isRegular
+                        if (curPiece != null) {
 
-                            moveRegular(focusedPiece, currentRect);
-
-                            if (focusedPiece.getTeam() == 1) {
-                                if (getRowWithSquare(focusedPiece.getPosition()) == 0) {
-                                    focusedPiece.setToKing();
-                                }
-                            } else if (focusedPiece.getTeam() == 0) {
-                                if (getRowWithSquare(focusedPiece.getPosition()) == 7) {
-                                    focusedPiece.setToKing();
-                                }
-                            }
-
-                            if (!focusedPiece.isKing()) { //did not become king
-                                if (focusedPiece.isMoving()) { //killed someone
-                                    if (getPossibleKillSquaresRegular(focusedPiece).size() != 0) {
-                                        needsToKill = true;
-                                        pieceThatNeedsToKill = focusedPiece;
-                                        changeTeamTurn();
-                                        setFocusedPiece(focusedPiece);
-                                        repaint();
+                            if (curPiece.getTeam() == teamWithTurn) {
+                                if (!curPiece.isInFocus()) {
+                                    if (availableSquaresToKill.isEmpty()) {
+                                        setFocusedPiece(curPiece);
                                     } else {
-                                        focusedPiece.setMoving(false);
-                                        setAllUnfocused();
+                                        if (teamCanKill().contains(curPiece)) {
+                                            setFocusedPiece(curPiece);
+                                        }
                                     }
                                 } else {
-                                    setAllUnfocused();
-                                }
-                            } else { //became king
-                                if (focusedPiece.isMoving()) { //killed someone
-                                    if (getPossibleKillSquaresKing(focusedPiece).size() != 0) {
-                                        needsToKill = true;
-                                        pieceThatNeedsToKill = focusedPiece;
-                                        changeTeamTurn();
-                                        setFocusedPiece(focusedPiece);
-                                        repaint();
-                                    } else {
-                                        focusedPiece.setMoving(false);
+                                    if (teamCanKill().isEmpty()) {
                                         setAllUnfocused();
                                     }
-                                } else {
-                                    setAllUnfocused();
                                 }
-                            }
-
-
-                            repaint();
-
-                        } else { //isKing
-                            moveKing(focusedPiece, currentRect);
-                            if (focusedPiece.isMoving()) {
-                                if (getPossibleKillSquaresKing(focusedPiece).size() == 0) {
-                                    focusedPiece.setMoving(false);
-                                    setAllUnfocused();
-                                    repaint();
-                                } else {
-                                    needsToKill = true;
-                                    pieceThatNeedsToKill = focusedPiece;
-                                    setFocusedPiece(focusedPiece);
-                                    changeTeamTurn();
-                                    repaint();
-                                }
-                            } else {
-                                setAllUnfocused();
                                 repaint();
                             }
+                        } else if (getFocusedPiece() != null) {
+                            Piece focusedPiece = getFocusedPiece();
 
-                        }
 
-                    }
+                            if (optionNeedToKill) {
 
-                } else {
+                                if (!teamCanKill().isEmpty()) {
 
-                    setAllUnfocused();
-                    repaint();
-                }
-                repaint();
-            } else {
-                int x = e.getX();
-                int y = e.getY();
-                Point2D.Double currentPoint = new Point2D.Double(x, y);
-                Rectangle2D.Double currentRect = getSquareWithPoint(currentPoint);
-                Piece currentPiece = pieceThatNeedsToKill;
-                if (currentRect != null) {
-                    if (!currentPiece.isKing()) { //not king
-                        if (getPossibleKillSquaresRegular(currentPiece).contains(currentRect)) {
-                            moveRegular(currentPiece, currentRect);
+                                    if (!focusedPiece.isKing()) {
+                                        if (!getPossibleKillSquaresRegular(focusedPiece).contains(currentRect)) {
 
-                            if (currentPiece.getTeam() == 1) {
-                                if (getRowWithSquare(currentPiece.getPosition()) == 0) {
-                                    currentPiece.setToKing();
+                                            return;
+                                        }
+                                    } else {
+                                        if (!getPossibleKillSquaresKing(focusedPiece).contains(currentRect)) {
+
+                                            return;
+                                        }
+                                    }
+
                                 }
-                            } else if (currentPiece.getTeam() == 0) {
-                                if (getRowWithSquare(currentPiece.getPosition()) == 7) {
-                                    currentPiece.setToKing();
+                                showOnlyKillSquares = false;
+                            }
+
+
+                            if (!focusedPiece.isKing()) { //isRegular
+
+                                moveRegular(focusedPiece, currentRect);
+
+                                if (focusedPiece.getTeam() == 1) {
+                                    if (getRowWithSquare(focusedPiece.getPosition()) == 0) {
+                                        focusedPiece.setToKing();
+                                    }
+                                } else if (focusedPiece.getTeam() == 0) {
+                                    if (getRowWithSquare(focusedPiece.getPosition()) == 7) {
+                                        focusedPiece.setToKing();
+                                    }
+                                }
+
+                                if (!focusedPiece.isKing()) { //did not become king
+                                    if (focusedPiece.isMoving()) { //killed someone
+                                        if (getPossibleKillSquaresRegular(focusedPiece).size() != 0) {
+                                            needsToKill = true;
+                                            pieceThatNeedsToKill = focusedPiece;
+                                            changeTeamTurn();
+                                            setFocusedPiece(focusedPiece);
+                                            repaint();
+                                        } else {
+                                            focusedPiece.setMoving(false);
+                                            setAllUnfocused();
+                                        }
+                                    } else {
+                                        setAllUnfocused();
+                                    }
+                                } else { //became king
+                                    if (focusedPiece.isMoving()) { //killed someone
+                                        if (getPossibleKillSquaresKing(focusedPiece).size() != 0) {
+                                            needsToKill = true;
+                                            pieceThatNeedsToKill = focusedPiece;
+                                            changeTeamTurn();
+                                            setFocusedPiece(focusedPiece);
+                                            repaint();
+                                        } else {
+                                            focusedPiece.setMoving(false);
+                                            setAllUnfocused();
+                                        }
+                                    } else {
+                                        setAllUnfocused();
+                                    }
+                                }
+
+
+                                repaint();
+
+                            } else { //isKing
+                                moveKing(focusedPiece, currentRect);
+                                if (focusedPiece.isMoving()) {
+                                    if (getPossibleKillSquaresKing(focusedPiece).size() == 0) {
+                                        focusedPiece.setMoving(false);
+                                        setAllUnfocused();
+                                        repaint();
+                                    } else {
+                                        needsToKill = true;
+                                        pieceThatNeedsToKill = focusedPiece;
+                                        setFocusedPiece(focusedPiece);
+                                        changeTeamTurn();
+                                        repaint();
+                                    }
+                                } else {
+                                    setAllUnfocused();
+                                    repaint();
+                                }
+
+                            }
+
+                            if (optionNeedToKill) {
+                                if (!teamCanKill().isEmpty()) {
+                                    for (Piece p :
+                                            teamCanKill()) {
+
+                                        p.setNeedsToKill(true);
+                                        repaint();
+                                    }
+                                    if (!teamCanKill().contains(curPiece)) {
+
+                                        return;
+                                    }
+
                                 }
                             }
 
-                            if (!currentPiece.isKing()) { //not became king
-                                if (currentPiece.isMoving()) { //ate somebody
-                                    if (getPossibleKillSquaresRegular(currentPiece).size() == 0) { //can't kill anymore
+                        }
+
+                    } else {
+                        if (optionNeedToKill) {
+                            if (availableSquaresToKill.isEmpty()) {
+                                setAllUnfocused();
+                            }
+                        } else {
+                            setAllUnfocused();
+                        }
+                        repaint();
+                    }
+                    repaint();
+                } else {
+                    int x = e.getX();
+                    int y = e.getY();
+                    Point2D.Double currentPoint = new Point2D.Double(x, y);
+                    Rectangle2D.Double currentRect = getSquareWithPoint(currentPoint);
+                    Piece currentPiece = pieceThatNeedsToKill;
+                    if (currentRect != null) {
+                        if (!currentPiece.isKing()) { //not king
+                            if (getPossibleKillSquaresRegular(currentPiece).contains(currentRect)) {
+                                moveRegular(currentPiece, currentRect);
+
+                                if (currentPiece.getTeam() == 1) {
+                                    if (getRowWithSquare(currentPiece.getPosition()) == 0) {
+                                        currentPiece.setToKing();
+                                    }
+                                } else if (currentPiece.getTeam() == 0) {
+                                    if (getRowWithSquare(currentPiece.getPosition()) == 7) {
+                                        currentPiece.setToKing();
+                                    }
+                                }
+
+                                if (!currentPiece.isKing()) { //not became king
+                                    if (currentPiece.isMoving()) { //ate somebody
+                                        if (getPossibleKillSquaresRegular(currentPiece).size() == 0) { //can't kill anymore
+                                            needsToKill = false;
+                                            pieceThatNeedsToKill = null;
+                                            currentPiece.setMoving(false);
+                                            setAllUnfocused();
+                                            repaint();
+                                        } else { //can kill more
+
+                                            changeTeamTurn();
+                                            setFocusedPiece(currentPiece);
+                                            repaint();
+                                        }
+                                    } else { //did not eat anybody
                                         needsToKill = false;
                                         pieceThatNeedsToKill = null;
                                         currentPiece.setMoving(false);
                                         setAllUnfocused();
                                         repaint();
-                                    } else { //can kill more
+                                    }
+                                } else { //became king
+                                    if (getPossibleKillSquaresKing(currentPiece).size() == 0) { //can't kill anymore
+                                        needsToKill = false;
+                                        pieceThatNeedsToKill = null;
+                                        currentPiece.setMoving(false);
+                                        setAllUnfocused();
+                                        repaint();
+                                        System.out.println("BEACAME KING CAN'T KILL MORE");
+                                    } else {
 
                                         changeTeamTurn();
                                         setFocusedPiece(currentPiece);
                                         repaint();
+                                        System.out.println("BEACAME KING CAN KILL MORE");
                                     }
-                                } else { //did not eat anybody
-                                    needsToKill = false;
-                                    pieceThatNeedsToKill = null;
-                                    currentPiece.setMoving(false);
-                                    setAllUnfocused();
-                                    repaint();
                                 }
-                            } else { //became king
+
+                            }
+                        } else {//king
+                            if (getPossibleKillSquaresKing(currentPiece).contains(currentRect)) {
+                                moveKing(currentPiece, currentRect);
                                 if (getPossibleKillSquaresKing(currentPiece).size() == 0) { //can't kill anymore
                                     needsToKill = false;
                                     pieceThatNeedsToKill = null;
                                     currentPiece.setMoving(false);
                                     setAllUnfocused();
                                     repaint();
-                                    System.out.println("BEACAME KING CAN'T KILL MORE");
                                 } else {
 
                                     changeTeamTurn();
                                     setFocusedPiece(currentPiece);
                                     repaint();
-                                    System.out.println("BEACAME KING CAN KILL MORE");
                                 }
-                            }
-
-                        }
-                    } else {//king
-                        if (getPossibleKillSquaresKing(currentPiece).contains(currentRect)) {
-                            moveKing(currentPiece, currentRect);
-                            if (getPossibleKillSquaresKing(currentPiece).size() == 0) { //can't kill anymore
-                                needsToKill = false;
-                                pieceThatNeedsToKill = null;
-                                currentPiece.setMoving(false);
-                                setAllUnfocused();
-                                repaint();
-                            } else {
-
-                                changeTeamTurn();
-                                setFocusedPiece(currentPiece);
-                                repaint();
                             }
                         }
                     }
                 }
+            } else {
+                if (reds.size() > blacks.size()) {
+                    winner = 1;
+                    isEnded = true;
+                    frame.setRedWins(frame.getRedWins() + 1);
+                    frame.setScore();
+                } else if (reds.size() == blacks.size()) {
+                    System.out.println("draw");
+                } else {
+                    winner = 0;
+                    isEnded = true;
+                    frame.setBlackWins(frame.getBlackWins() + 1);
+                    frame.setScore();
+                }
+
             }
             if (reds.size() <= 0) {
                 winner = 0;
                 isEnded = true;
-                frame.setBlackWins(frame.getBlackWins()+1);
+                frame.setBlackWins(frame.getBlackWins() + 1);
                 frame.setScore();
             } else if (blacks.size() <= 0) {
                 winner = 1;
                 isEnded = true;
-                frame.setRedWins(frame.getRedWins()+1);
+                frame.setRedWins(frame.getRedWins() + 1);
                 frame.setScore();
             }
             repaint();
@@ -1122,24 +1602,16 @@ public class MyBoard extends JComponent {
 
     }
 
-    private class RefreshAction extends AbstractAction{
+    private class RefreshAction extends AbstractAction {
 
-        RefreshAction(){
-            putValue(Action.NAME,"New game");
-            putValue(Action.SHORT_DESCRIPTION,"Start a new game");
+        RefreshAction() {
+            putValue(Action.NAME, "New game");
+            putValue(Action.SHORT_DESCRIPTION, "Start a new game");
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             frame.refreshComponent();
         }
-    }
-
-    public int getWinner() {
-        return winner;
-    }
-
-    public boolean isEnded() {
-        return isEnded;
     }
 }

@@ -6,20 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19e56172-1408-41e3-b6bd-ba73daa7b877" name="Default Changelist" comment="Now it is shown">
+    <list default="true" id="19e56172-1408-41e3-b6bd-ba73daa7b877" name="Default Changelist" comment="Bug fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$AllUnfocusedEvent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$MouseHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent$RefreshAction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyComponent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/MyFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/MyFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/images/black_piece_king.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/images/black_piece_king.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyCheckers/images/red_piece_king.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyCheckers/images/red_piece_king.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MyBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/images/black_piece_king.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/black_piece_king.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/images/red_piece_king.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/red_piece_king.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +26,7 @@
         <entry file="file://$PROJECT_DIR$/src/Piece.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="208">
-              <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+              <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
               <folding>
                 <element signature="e#1129#1130#0" expanded="true" />
                 <element signature="e#1168#1169#0" expanded="true" />
@@ -74,29 +63,35 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MyBoard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="148" column="73" lean-forward="true" selection-start-line="148" selection-start-column="73" selection-end-line="148" selection-end-column="73" />
+            <state relative-caret-position="147">
+              <caret line="198" selection-start-line="198" selection-end-line="198" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#tableAdd#0;class#MyComponent#0" />
-                <element signature="e#8912#8913#0" expanded="true" />
+                <element signature="e#8718#8719#0" expanded="true" />
                 <element signature="method#getSquareWithPoint#0;class#MyComponent#0" />
-                <element signature="e#9408#9409#0" expanded="true" />
+                <element signature="e#9214#9215#0" expanded="true" />
                 <element signature="method#getRowWithSquare#0;class#MyComponent#0" />
                 <element signature="method#getColumnWithSquare#0;class#MyComponent#0" />
                 <element signature="method#getPieceWithSquare#0;class#MyComponent#0" />
                 <element signature="method#getPieceListWithEnemyTeam#0;class#MyComponent#0" />
                 <element signature="method#getFocusedPiece#0;class#MyComponent#0" />
+                <element signature="e#10155#11371#0" />
+                <element signature="e#11377#12022#0" />
                 <element signature="e#12028#12204#0" />
+                <element signature="e#12210#19089#0" />
                 <element signature="method#getPossibleKillSquaresRegular#0;class#MyComponent#0" />
                 <element signature="method#getPossibleKillSquaresRegular#1;class#MyBoard#0" />
                 <element signature="method#getPossibleKillSquaresKing#0;class#MyComponent#0" />
                 <element signature="method#getPossibleKillSquaresKing#1;class#MyBoard#0" />
                 <element signature="e#39919#52365#0" />
+                <element signature="method#checkForPossibleMoves#0;class#MyBoard#0" />
+                <element signature="e#53221#53921#0" />
                 <element signature="e#41988#42018#1" />
-                <element signature="e#54851#54852#0" expanded="true" />
-                <element signature="e#54913#54914#0" expanded="true" />
+                <element signature="e#54657#54658#0" expanded="true" />
+                <element signature="e#54719#54720#0" expanded="true" />
                 <element signature="class#AllUnfocusedEvent#0;class#MyComponent#0" />
+                <element signature="e#54861#67919#0" />
                 <element signature="class#RefreshAction#0;class#MyComponent#0" />
               </folding>
             </state>
@@ -139,11 +134,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="91" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="160" />
     <option name="y" value="-24" />
-    <option name="width" value="960" />
-    <option name="height" value="1035" />
+    <option name="width" value="903" />
+    <option name="height" value="1033" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -157,6 +152,24 @@
             <path>
               <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
               <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyCheckers" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="MyCheckers_jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MyCheckers" type="b2602c69:ProjectViewProjectNode" />
@@ -211,7 +224,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Factory">
     <configuration name="Factory" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Factory" />
       <module name="MyCheckers" />
@@ -219,9 +232,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MyCheckers.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/MyCheckers_jar/MyCheckers.jar" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Factory" />
+        <item itemvalue="JAR Application.MyCheckers.jar" />
       </list>
     </recent_temporary>
   </component>
@@ -306,11 +324,25 @@
       <option name="project" value="LOCAL" />
       <updated>1563400811737</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="1)Now it is prohibited to make a non-kill move if any piece can kill.&#10;2)Yellow squares show where you can go (non-kill), red show where you &#10;can kill.&#10;3)New images for kings.">
+      <created>1563576371638</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1563576371638</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Bug fix">
+      <created>1563624386190</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1563624386190</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="840" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
@@ -318,16 +350,16 @@
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.16845638" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49865952" visible="true" weight="0.15637584" />
+      <window_info id="Structure" order="1" sideWeight="0.5013405" side_tool="true" weight="0.094630875" />
       <window_info anchor="bottom" id="Version Control" weight="0.32909605" />
       <window_info anchor="bottom" id="Terminal" weight="0.32841823" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" weight="0.32841823" />
+      <window_info anchor="bottom" id="Messages" weight="0.32768363" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31233245" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3994638" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3121469" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3983051" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -337,7 +369,7 @@
       <window_info anchor="right" id="Palette&#9;" />
       <window_info anchor="right" id="Maven" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24966443" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
     <layout-to-restore>
@@ -369,6 +401,9 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
     </layout-to-restore>
   </component>
+  <component name="UpdateCopyrightCheckinHandler">
+    <option name="UPDATE_COPYRIGHT" value="true" />
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Nothing yet" />
     <MESSAGE value="Marked src folder as source" />
@@ -378,19 +413,28 @@
     <MESSAGE value="Improvements" />
     <MESSAGE value="Made a text on button &quot;Restart game&quot;, not &quot;Start new game&quot; unless the game has ended." />
     <MESSAGE value="Name changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Name changes" />
+    <MESSAGE value="1)Now it is prohibited to make a non-kill move if any piece can kill.&#10;2)Yellow squares show where you can go (non-kill), red show where you &#10;can kill.&#10;3)New images for kings." />
+    <MESSAGE value="Bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fix" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/MyBoard.java</url>
-          <line>1353</line>
+          <line>1446</line>
           <properties />
-          <option name="timeStamp" value="14" />
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
@@ -428,20 +472,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Factory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Piece.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
-          <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
           <folding>
             <element signature="e#1129#1130#0" expanded="true" />
             <element signature="e#1168#1169#0" expanded="true" />
@@ -449,6 +483,16 @@
             <element signature="e#1357#1358#0" expanded="true" />
             <element signature="e#1395#1396#0" expanded="true" />
             <element signature="e#1429#1430#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Factory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -462,29 +506,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MyBoard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="148" column="73" lean-forward="true" selection-start-line="148" selection-start-column="73" selection-end-line="148" selection-end-column="73" />
+        <state relative-caret-position="147">
+          <caret line="198" selection-start-line="198" selection-end-line="198" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#tableAdd#0;class#MyComponent#0" />
-            <element signature="e#8912#8913#0" expanded="true" />
+            <element signature="e#8718#8719#0" expanded="true" />
             <element signature="method#getSquareWithPoint#0;class#MyComponent#0" />
-            <element signature="e#9408#9409#0" expanded="true" />
+            <element signature="e#9214#9215#0" expanded="true" />
             <element signature="method#getRowWithSquare#0;class#MyComponent#0" />
             <element signature="method#getColumnWithSquare#0;class#MyComponent#0" />
             <element signature="method#getPieceWithSquare#0;class#MyComponent#0" />
             <element signature="method#getPieceListWithEnemyTeam#0;class#MyComponent#0" />
             <element signature="method#getFocusedPiece#0;class#MyComponent#0" />
+            <element signature="e#10155#11371#0" />
+            <element signature="e#11377#12022#0" />
             <element signature="e#12028#12204#0" />
+            <element signature="e#12210#19089#0" />
             <element signature="method#getPossibleKillSquaresRegular#0;class#MyComponent#0" />
             <element signature="method#getPossibleKillSquaresRegular#1;class#MyBoard#0" />
             <element signature="method#getPossibleKillSquaresKing#0;class#MyComponent#0" />
             <element signature="method#getPossibleKillSquaresKing#1;class#MyBoard#0" />
             <element signature="e#39919#52365#0" />
+            <element signature="method#checkForPossibleMoves#0;class#MyBoard#0" />
+            <element signature="e#53221#53921#0" />
             <element signature="e#41988#42018#1" />
-            <element signature="e#54851#54852#0" expanded="true" />
-            <element signature="e#54913#54914#0" expanded="true" />
+            <element signature="e#54657#54658#0" expanded="true" />
+            <element signature="e#54719#54720#0" expanded="true" />
             <element signature="class#AllUnfocusedEvent#0;class#MyComponent#0" />
+            <element signature="e#54861#67919#0" />
             <element signature="class#RefreshAction#0;class#MyComponent#0" />
           </folding>
         </state>

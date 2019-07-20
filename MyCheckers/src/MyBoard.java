@@ -176,24 +176,24 @@ public class MyBoard extends JComponent {
         if (winner != -1) { //someone won
             button.setText("Start new game");
             Font f = new Font("Times New Roman", Font.BOLD, 120);
-            g2.setPaint(Color.WHITE);
+            g2.setPaint(Color.LIGHT_GRAY);
             Rectangle2D bounds = f.getStringBounds("WINNER IS BLACK!", g2.getFontRenderContext());
 
-            g2.fill(new Rectangle2D.Double(40, 360, bounds.getWidth(), bounds.getHeight()));
-            g2.setPaint(Color.ORANGE);
+            g2.fill(new Rectangle2D.Double(40, 360, bounds.getWidth() - 40, bounds.getHeight()));
+
             g2.setFont(f);
             if (winner == 0) {
+                g2.setPaint(Color.BLACK);
                 g2.drawString("WINNER IS BLACK!", 0, 460);
 
 
-                g2.setPaint(Color.BLACK);
+
 
             } else if (winner == 1) {
-                g2.drawString("WINNER IS RED!", 40, 460);
                 g2.setPaint(Color.RED);
+                g2.drawString("WINNER IS RED!", 40, 460);
+
             }
-            g2.fill(new Ellipse2D.Double(MARG_FROM_EDGE + 10 * SIDE_LENGTH, MARG_FROM_EDGE + 5 * SIDE_LENGTH,
-                    SIDE_LENGTH * 2, SIDE_LENGTH * 2));
             repaint();
 
         } else {//no winners yet

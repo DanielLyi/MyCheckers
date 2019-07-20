@@ -100,11 +100,11 @@ public class Piece extends ImageIcon {
 
     public static ImageIcon getDefIconFromTeam(int t){
         if(t==0){
-            return new ImageIcon(Objects.requireNonNull(Factory.class.getClassLoader().getResource(
-                    "images/black_piece1.png")));
+            return new ImageIcon(Objects.requireNonNull(Start.class.getClassLoader().getResource(
+                    "images/black_piece.png")));
         }
         else if(t==1){
-            return new ImageIcon(Objects.requireNonNull(Factory.class.getClassLoader().getResource(
+            return new ImageIcon(Objects.requireNonNull(Start.class.getClassLoader().getResource(
                     "images/red_piece.png")));
         }
         else{

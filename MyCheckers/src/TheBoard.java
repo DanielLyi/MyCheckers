@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MyBoard extends JComponent {
+public class TheBoard extends JComponent {
 
     private static final int DEFAULT_WIDTH = 900;
     private static final int DEFAULT_HEIGHT = 750;
@@ -20,20 +20,19 @@ public class MyBoard extends JComponent {
     private ArrayList<Rectangle2D.Double> availableSquaresToKill;
     private ArrayList<Piece> blacks;
     private ArrayList<Piece> reds;
-    private boolean showAvailiableSquares;
+    private boolean showAvailableSquares;
     private boolean isEnded;
-    /* private com.daniel.Piece focused;*/
-    private int teamWithTurn;
-    private int winner = -1;
     private boolean needsToKill;
     private boolean optionNeedToKill;
     private boolean choosing;
     private boolean showOnlyKillSquares;
+    private int teamWithTurn;
+    private int winner = -1;
     private Piece pieceThatNeedsToKill;
-    private MyFrame frame;
+    private TheFrame frame;
     private JButton button;
 
-    MyBoard(MyFrame frame) {
+    TheBoard(TheFrame frame) {
         this.frame = frame;
         squares = new Rectangle2D.Double[8][8];
         availableSquaresToGo = new ArrayList<>();
@@ -49,7 +48,7 @@ public class MyBoard extends JComponent {
         needsToKill = false;
         optionNeedToKill = true;
         choosing = true;
-        showAvailiableSquares = false;
+        showAvailableSquares = false;
         initBoard();
         InputMap inputMap = this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         inputMap.put(KeyStroke.getKeyStroke("ctrl U"), "esc_pressed");
@@ -74,7 +73,7 @@ public class MyBoard extends JComponent {
                 }
                 if (h <= 2 && (h + w) % 2 == 1) {
                     blacks.add(new Piece(0, new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(
-                            "images/black_piece1.png"))), cur));
+                            "images/black_piece.png"))), cur));
                 }
             }
         }
@@ -98,7 +97,7 @@ public class MyBoard extends JComponent {
                     g2.setPaint(Color.PINK);
                 } else {
                     g2.setPaint(Color.WHITE);
-                    if (showAvailiableSquares) {
+                    if (showAvailableSquares) {
                         if (!showOnlyKillSquares) {
                             for (Rectangle2D.Double rect :
                                     availableSquaresToGo) {
@@ -185,8 +184,6 @@ public class MyBoard extends JComponent {
             if (winner == 0) {
                 g2.setPaint(Color.BLACK);
                 g2.drawString("WINNER IS BLACK!", 0, 460);
-
-
 
 
             } else if (winner == 1) {
@@ -311,16 +308,16 @@ public class MyBoard extends JComponent {
         availableSquaresToGo.clear();
         availableSquaresToKill.clear();
         if (!p.isKing()) {
-            if (getPossibleKillSquaresRegular(p) != null) {
-                showAvailiableSquares = true;
-                availableSquaresToGo.addAll(getPossibleToGoSquaresRegular(p));
-                availableSquaresToKill.addAll(getPossibleKillSquaresRegular(p));
+            if (getPossibleToGoSquaresRegular(p, true) != null) {
+                showAvailableSquares = true;
+                availableSquaresToGo.addAll(getPossibleToGoSquaresRegular(p, false));
+                availableSquaresToKill.addAll(getPossibleToGoSquaresRegular(p, true));
             }
         } else {
-            if (getPossibleKillSquaresKing(p) != null) {
-                showAvailiableSquares = true;
-                availableSquaresToGo.addAll(Objects.requireNonNull(getPossibleToGoSquaresKing(p)));
-                availableSquaresToKill.addAll(getPossibleKillSquaresKing(p));
+            if (getPossibleToGoSquaresKing(p, true) != null) {
+                showAvailableSquares = true;
+                availableSquaresToGo.addAll(Objects.requireNonNull(getPossibleToGoSquaresKing(p, false)));
+                availableSquaresToKill.addAll(getPossibleToGoSquaresKing(p, true));
             }
         }
         repaint();
@@ -345,7 +342,7 @@ public class MyBoard extends JComponent {
                 b.setNeedsToKill(false);
             }
         }
-        showAvailiableSquares = false;
+        showAvailableSquares = false;
         availableSquaresToGo.clear();
         availableSquaresToKill.clear();
         repaint();
@@ -511,7 +508,7 @@ public class MyBoard extends JComponent {
 
     }
 
-    private ArrayList<Rectangle2D.Double> getPossibleKillSquaresRegular(Piece p)
+    /*private ArrayList<Rectangle2D.Double> getPossibleKillSquaresRegular(Piece p)
             throws NullPointerException {
         ArrayList<Rectangle2D.Double> possibles = new ArrayList<>();
         if (p != null) {
@@ -573,9 +570,9 @@ public class MyBoard extends JComponent {
             throw new NullPointerException();
         }
 
-    }
+    }*/
 
-    private ArrayList<Rectangle2D.Double> getPossibleToGoSquaresRegular(Piece p)
+    private ArrayList<Rectangle2D.Double> getPossibleToGoSquaresRegular(Piece p, boolean onlyKill)
             throws NullPointerException {
         ArrayList<Rectangle2D.Double> possibles = new ArrayList<>();
         if (p != null) {
@@ -591,8 +588,10 @@ public class MyBoard extends JComponent {
                                 }
                             }
                         }
-                    } else { //if square is empty
-                        possibles.add(getSquareWithIJCoordinates(row - 1, column - 1));
+                    } else {
+                        if (!onlyKill) {//if square is empty
+                            possibles.add(getSquareWithIJCoordinates(row - 1, column - 1));
+                        }
                     }
                 }
 
@@ -606,8 +605,10 @@ public class MyBoard extends JComponent {
                                 }
                             }
                         }
-                    } else { //if square is empty
-                        possibles.add(getSquareWithIJCoordinates(row - 1, column + 1));
+                    } else {
+                        if (!onlyKill) { //if square is empty
+                            possibles.add(getSquareWithIJCoordinates(row - 1, column + 1));
+                        }
                     }
                 }
             } else if (p.getTeam() == 0) { //Black team
@@ -621,8 +622,10 @@ public class MyBoard extends JComponent {
                                 }
                             }
                         }
-                    } else { //if square is empty
-                        possibles.add(getSquareWithIJCoordinates(row + 1, column - 1));
+                    } else {
+                        if (!onlyKill) { //if square is empty
+                            possibles.add(getSquareWithIJCoordinates(row + 1, column - 1));
+                        }
                     }
                 }
 
@@ -637,7 +640,9 @@ public class MyBoard extends JComponent {
                             }
                         }
                     } else { //if square is empty
-                        possibles.add(getSquareWithIJCoordinates(row + 1, column + 1));
+                        if (!onlyKill) {
+                            possibles.add(getSquareWithIJCoordinates(row + 1, column + 1));
+                        }
                     }
                 }
             }
@@ -650,12 +655,12 @@ public class MyBoard extends JComponent {
 
     }
 
-    private ArrayList<Rectangle2D.Double> getPossibleKillSquaresKing(Piece p) {
+   /* private ArrayList<Rectangle2D.Double> getPossibleKillSquaresKing(Piece p) {
         if (p.isKing()) {//necessary condition
             var possibles = new ArrayList<Rectangle2D.Double>();
             int row = getRowWithSquare(p.getPosition());
             int column = getColumnWithSquare(p.getPosition());
-            /*for (int i = 0; i < 8; i++) {
+            *//*for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if((i+j==row+column||i-j==row-column)&&(i!=row||j!=column)){
                         if(getPieceWithSquare(squares[i][j])==null){
@@ -663,7 +668,7 @@ public class MyBoard extends JComponent {
                         }
                     }
                 }
-            }*/
+            }*//*
             boolean killed = false;
             for (int i = 1; true; i++) {
 
@@ -673,14 +678,14 @@ public class MyBoard extends JComponent {
                     if (!killed) { //not killed
                         if (currentPiece == null) {
 
-                            /*availables.add(currentSquare);*/
+                            *//*availables.add(currentSquare);*//*
                         } else if (currentPiece.getTeam() != p.getTeam()) {
                             if (row - i - 1 >= 0 && column - i - 1 >= 0 &&
                                     getPieceWithSquare(getSquareWithIJCoordinates(row - i - 1, column - i - 1)) ==
                                             null) {
 
                                 killed = true;
-                                /*possibles.add(getSquareWithIJCoordinates(row - i - 1, column - i - 1));*/
+                                *//*possibles.add(getSquareWithIJCoordinates(row - i - 1, column - i - 1));*//*
 
 
                             } else {
@@ -692,7 +697,7 @@ public class MyBoard extends JComponent {
                     } else { //killed
                         if (currentPiece == null) {
                             possibles.add(currentSquare);
-                            /*availables.add(currentSquare);*/
+                            *//*availables.add(currentSquare);*//*
                         } else {
                             killed = false;
                             break;
@@ -727,7 +732,7 @@ public class MyBoard extends JComponent {
                     } else { //killed
                         if (currentPiece == null) {
                             possibles.add(currentSquare);
-                            /*availables.add(currentSquare);*/
+                            *//*availables.add(currentSquare);*//*
                         } else {
                             killed = false;
                             break;
@@ -762,7 +767,7 @@ public class MyBoard extends JComponent {
                     } else { //killed
                         if (currentPiece == null) {
                             possibles.add(currentSquare);
-                            /*availables.add(currentSquare);*/
+                            *//*availables.add(currentSquare);*//*
                         } else {
                             killed = false;
                             break;
@@ -797,7 +802,7 @@ public class MyBoard extends JComponent {
                     } else { //killed
                         if (currentPiece == null) {
                             possibles.add(currentSquare);
-                            /*availables.add(currentSquare);*/
+                            *//*availables.add(currentSquare);*//*
                         } else {
                             killed = false;
                             break;
@@ -812,9 +817,9 @@ public class MyBoard extends JComponent {
             return possibles;
         }
         return null;
-    }
+    }*/
 
-    private ArrayList<Rectangle2D.Double> getPossibleToGoSquaresKing(Piece p) {
+    private ArrayList<Rectangle2D.Double> getPossibleToGoSquaresKing(Piece p, boolean onlyKill) {
         if (p.isKing()) {//necessary condition
             var possibles = new ArrayList<Rectangle2D.Double>();
             int row = getRowWithSquare(p.getPosition());
@@ -836,7 +841,9 @@ public class MyBoard extends JComponent {
                     Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) { //not killed
                         if (currentPiece == null) {
-                            possibles.add(currentSquare);
+                            if (!onlyKill) {
+                                possibles.add(currentSquare);
+                            }
                             /*availables.add(currentSquare);*/
                         } else if (currentPiece.getTeam() != p.getTeam()) {
                             if (row - i - 1 >= 0 && column - i - 1 >= 0 &&
@@ -874,7 +881,9 @@ public class MyBoard extends JComponent {
                     Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) {
                         if (currentPiece == null) {
-                            possibles.add(currentSquare);
+                            if (!onlyKill) {
+                                possibles.add(currentSquare);
+                            }
                         } else if (currentPiece.getTeam() != p.getTeam()) {
                             if (row + i + 1 <= 7 && column - i - 1 >= 0 &&
                                     getPieceWithSquare(getSquareWithIJCoordinates(row + i + 1, column - i - 1)) ==
@@ -909,7 +918,9 @@ public class MyBoard extends JComponent {
                     Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) {
                         if (currentPiece == null) {
-                            possibles.add(currentSquare);
+                            if (!onlyKill) {
+                                possibles.add(currentSquare);
+                            }
                         } else if (currentPiece.getTeam() != p.getTeam()) {
                             if (row + i + 1 <= 7 && column + i + 1 <= 7) {
                                 if (getPieceWithSquare(getSquareWithIJCoordinates(row + i + 1, column + i + 1)) ==
@@ -944,7 +955,9 @@ public class MyBoard extends JComponent {
                     Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) {
                         if (currentPiece == null) {
-                            possibles.add(currentSquare);
+                            if (!onlyKill) {
+                                possibles.add(currentSquare);
+                            }
                         } else if (currentPiece.getTeam() != p.getTeam()) {
                             if (row - i - 1 >= 0 && column + i + 1 <= 7 &&
                                     getPieceWithSquare(getSquareWithIJCoordinates(row - i - 1, column + i + 1)) ==
@@ -1250,12 +1263,12 @@ public class MyBoard extends JComponent {
                 pieces) {
             if (p != null) {
                 if (!p.isKing()) {
-                    if (!getPossibleToGoSquaresRegular(p).isEmpty()) { //if there is a square to go
+                    if (!getPossibleToGoSquaresRegular(p, false).isEmpty()) { //if there is a square to go
                         hasNoMoves = false;
                         break;
                     }
                 } else {
-                    if (!getPossibleToGoSquaresKing(p).isEmpty()) { //if there is a square to go
+                    if (!getPossibleToGoSquaresKing(p, false).isEmpty()) { //if there is a square to go
                         hasNoMoves = false;
                         break;
                     }
@@ -1277,12 +1290,12 @@ public class MyBoard extends JComponent {
         for (Piece p :
                 team) {
             if (!p.isKing()) {
-                if (!getPossibleKillSquaresRegular(p).isEmpty()) {
+                if (!getPossibleToGoSquaresRegular(p, true).isEmpty()) {
                     piecesThatCanKill.add(p);
                     p.setNeedsToKill(true);
                 }
             } else {
-                if (!getPossibleKillSquaresKing(p).isEmpty()) {
+                if (!getPossibleToGoSquaresKing(p, true).isEmpty()) {
                     piecesThatCanKill.add(p);
                     p.setNeedsToKill(true);
                 }
@@ -1376,12 +1389,12 @@ public class MyBoard extends JComponent {
                                 if (!teamCanKill().isEmpty()) {
 
                                     if (!focusedPiece.isKing()) {
-                                        if (!getPossibleKillSquaresRegular(focusedPiece).contains(currentRect)) {
+                                        if (!getPossibleToGoSquaresRegular(focusedPiece, true).contains(currentRect)) {
 
                                             return;
                                         }
                                     } else {
-                                        if (!getPossibleKillSquaresKing(focusedPiece).contains(currentRect)) {
+                                        if (!getPossibleToGoSquaresKing(focusedPiece, true).contains(currentRect)) {
 
                                             return;
                                         }
@@ -1408,7 +1421,7 @@ public class MyBoard extends JComponent {
 
                                 if (!focusedPiece.isKing()) { //did not become king
                                     if (focusedPiece.isMoving()) { //killed someone
-                                        if (getPossibleKillSquaresRegular(focusedPiece).size() != 0) {
+                                        if (getPossibleToGoSquaresRegular(focusedPiece, true).size() != 0) {
                                             needsToKill = true;
                                             pieceThatNeedsToKill = focusedPiece;
                                             showOnlyKillSquares = true;
@@ -1424,7 +1437,7 @@ public class MyBoard extends JComponent {
                                     }
                                 } else { //became king
                                     if (focusedPiece.isMoving()) { //killed someone
-                                        if (getPossibleKillSquaresKing(focusedPiece).size() != 0) {
+                                        if (getPossibleToGoSquaresKing(focusedPiece, true).size() != 0) {
                                             needsToKill = true;
                                             pieceThatNeedsToKill = focusedPiece;
                                             showOnlyKillSquares = true;
@@ -1446,7 +1459,7 @@ public class MyBoard extends JComponent {
                             } else { //isKing
                                 moveKing(focusedPiece, currentRect);
                                 if (focusedPiece.isMoving()) {
-                                    if (getPossibleKillSquaresKing(focusedPiece).size() == 0) {
+                                    if (getPossibleToGoSquaresKing(focusedPiece, true).size() == 0) {
                                         focusedPiece.setMoving(false);
                                         setAllUnfocused();
                                         repaint();
@@ -1499,7 +1512,7 @@ public class MyBoard extends JComponent {
                     Piece currentPiece = pieceThatNeedsToKill;
                     if (currentRect != null) {
                         if (!currentPiece.isKing()) { //not king
-                            if (getPossibleKillSquaresRegular(currentPiece).contains(currentRect)) {
+                            if (getPossibleToGoSquaresRegular(currentPiece, true).contains(currentRect)) {
                                 moveRegular(currentPiece, currentRect);
 
                                 if (currentPiece.getTeam() == 1) {
@@ -1514,7 +1527,8 @@ public class MyBoard extends JComponent {
 
                                 if (!currentPiece.isKing()) { //not became king
                                     if (currentPiece.isMoving()) { //ate somebody
-                                        if (getPossibleKillSquaresRegular(currentPiece).size() == 0) { //can't kill anymore
+                                        if (getPossibleToGoSquaresRegular(currentPiece, true).size() == 0) {
+                                            //can't kill anymore
                                             needsToKill = false;
                                             pieceThatNeedsToKill = null;
                                             showOnlyKillSquares = false;
@@ -1536,7 +1550,7 @@ public class MyBoard extends JComponent {
                                         repaint();
                                     }
                                 } else { //became king
-                                    if (getPossibleKillSquaresKing(currentPiece).size() == 0) { //can't kill anymore
+                                    if (getPossibleToGoSquaresKing(currentPiece, true).size() == 0) { //can't kill anymore
                                         needsToKill = false;
                                         pieceThatNeedsToKill = null;
                                         showOnlyKillSquares = false;
@@ -1555,9 +1569,9 @@ public class MyBoard extends JComponent {
 
                             }
                         } else {//king
-                            if (getPossibleKillSquaresKing(currentPiece).contains(currentRect)) {
+                            if (getPossibleToGoSquaresKing(currentPiece, true).contains(currentRect)) {
                                 moveKing(currentPiece, currentRect);
-                                if (getPossibleKillSquaresKing(currentPiece).size() == 0) { //can't kill anymore
+                                if (getPossibleToGoSquaresKing(currentPiece, true).size() == 0) { //can't kill anymore
                                     needsToKill = false;
                                     pieceThatNeedsToKill = null;
                                     currentPiece.setMoving(false);

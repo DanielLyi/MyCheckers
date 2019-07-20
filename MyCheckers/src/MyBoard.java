@@ -1411,6 +1411,7 @@ public class MyBoard extends JComponent {
                                         if (getPossibleKillSquaresRegular(focusedPiece).size() != 0) {
                                             needsToKill = true;
                                             pieceThatNeedsToKill = focusedPiece;
+                                            showOnlyKillSquares = true;
                                             changeTeamTurn();
                                             setFocusedPiece(focusedPiece);
                                             repaint();
@@ -1426,6 +1427,7 @@ public class MyBoard extends JComponent {
                                         if (getPossibleKillSquaresKing(focusedPiece).size() != 0) {
                                             needsToKill = true;
                                             pieceThatNeedsToKill = focusedPiece;
+                                            showOnlyKillSquares = true;
                                             changeTeamTurn();
                                             setFocusedPiece(focusedPiece);
                                             repaint();
@@ -1451,8 +1453,9 @@ public class MyBoard extends JComponent {
                                     } else {
                                         needsToKill = true;
                                         pieceThatNeedsToKill = focusedPiece;
-                                        setFocusedPiece(focusedPiece);
+                                        showOnlyKillSquares = true;
                                         changeTeamTurn();
+                                        setFocusedPiece(focusedPiece);
                                         repaint();
                                     }
                                 } else {
@@ -1469,10 +1472,6 @@ public class MyBoard extends JComponent {
 
                                         p.setNeedsToKill(true);
                                         repaint();
-                                    }
-                                    if (!teamCanKill().contains(curPiece)) {
-
-                                        return;
                                     }
 
                                 }
@@ -1492,6 +1491,7 @@ public class MyBoard extends JComponent {
                     }
                     repaint();
                 } else {
+                    showOnlyKillSquares = true;
                     int x = e.getX();
                     int y = e.getY();
                     Point2D.Double currentPoint = new Point2D.Double(x, y);
@@ -1517,6 +1517,7 @@ public class MyBoard extends JComponent {
                                         if (getPossibleKillSquaresRegular(currentPiece).size() == 0) { //can't kill anymore
                                             needsToKill = false;
                                             pieceThatNeedsToKill = null;
+                                            showOnlyKillSquares = false;
                                             currentPiece.setMoving(false);
                                             setAllUnfocused();
                                             repaint();
@@ -1529,6 +1530,7 @@ public class MyBoard extends JComponent {
                                     } else { //did not eat anybody
                                         needsToKill = false;
                                         pieceThatNeedsToKill = null;
+                                        showOnlyKillSquares = false;
                                         currentPiece.setMoving(false);
                                         setAllUnfocused();
                                         repaint();
@@ -1537,6 +1539,7 @@ public class MyBoard extends JComponent {
                                     if (getPossibleKillSquaresKing(currentPiece).size() == 0) { //can't kill anymore
                                         needsToKill = false;
                                         pieceThatNeedsToKill = null;
+                                        showOnlyKillSquares = false;
                                         currentPiece.setMoving(false);
                                         setAllUnfocused();
                                         repaint();

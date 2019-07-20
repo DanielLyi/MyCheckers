@@ -188,7 +188,7 @@ public class TheBoard extends JComponent {
 
             } else if (winner == 1) {
                 g2.setPaint(Color.RED);
-                g2.drawString("WINNER IS RED!", 40, 460);
+                g2.drawString("WINNER IS RED!", 0, 460);
 
             }
             repaint();

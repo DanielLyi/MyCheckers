@@ -1,3 +1,5 @@
+package com.daniel;
+
 import javax.swing.*;
 import java.awt.*;
 

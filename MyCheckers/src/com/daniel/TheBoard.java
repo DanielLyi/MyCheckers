@@ -175,7 +175,7 @@ public class TheBoard extends JComponent {
                     SIDE_LENGTH, SIDE_LENGTH));
         }
         if (winner != -1) { //someone won
-            button.setText("com.daniel.Start new game");
+            button.setText("Start new game");
             Font f = new Font("Times New Roman", Font.BOLD, 120);
             g2.setPaint(Color.LIGHT_GRAY);
             Rectangle2D bounds = f.getStringBounds("WINNER IS BLACK!", g2.getFontRenderContext());
@@ -510,7 +510,7 @@ public class TheBoard extends JComponent {
 
     }
 
-    /*private ArrayList<Rectangle2D.Double> getPossibleKillSquaresRegular(com.daniel.Piece p)
+    /*private ArrayList<Rectangle2D.Double> getPossibleKillSquaresRegular(Piece p)
             throws NullPointerException {
         ArrayList<Rectangle2D.Double> possibles = new ArrayList<>();
         if (p != null) {
@@ -657,7 +657,7 @@ public class TheBoard extends JComponent {
 
     }
 
-   /* private ArrayList<Rectangle2D.Double> getPossibleKillSquaresKing(com.daniel.Piece p) {
+   /* private ArrayList<Rectangle2D.Double> getPossibleKillSquaresKing(Piece p) {
         if (p.isKing()) {//necessary condition
             var possibles = new ArrayList<Rectangle2D.Double>();
             int row = getRowWithSquare(p.getPosition());
@@ -676,7 +676,7 @@ public class TheBoard extends JComponent {
 
                 if (row - i >= 0 && column - i >= 0) {
                     Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row - i, column - i);
-                    com.daniel.Piece currentPiece = getPieceWithSquare(currentSquare);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) { //not killed
                         if (currentPiece == null) {
 
@@ -714,7 +714,7 @@ public class TheBoard extends JComponent {
             for (int i = 1; true; i++) {
                 if (row + i <= 7 && column - i >= 0) {
                     Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row + i, column - i);
-                    com.daniel.Piece currentPiece = getPieceWithSquare(currentSquare);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) {
                         if (currentPiece == null) {
 
@@ -749,7 +749,7 @@ public class TheBoard extends JComponent {
             for (int i = 1; true; i++) {
                 if (row + i <= 7 && column + i <= 7) {
                     Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row + i, column + i);
-                    com.daniel.Piece currentPiece = getPieceWithSquare(currentSquare);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) {
                         if (currentPiece == null) {
 
@@ -784,7 +784,7 @@ public class TheBoard extends JComponent {
             for (int i = 1; true; i++) {
                 if (row - i >= 0 && column + i <= 7) {
                     Rectangle2D.Double currentSquare = getSquareWithIJCoordinates(row - i, column + i);
-                    com.daniel.Piece currentPiece = getPieceWithSquare(currentSquare);
+                    Piece currentPiece = getPieceWithSquare(currentSquare);
                     if (!killed) {
                         if (currentPiece == null) {
 
@@ -1625,7 +1625,7 @@ public class TheBoard extends JComponent {
 
         RefreshAction() {
             putValue(Action.NAME, "New game");
-            putValue(Action.SHORT_DESCRIPTION, "com.daniel.Start a new game");
+            putValue(Action.SHORT_DESCRIPTION, "Start a new game");
         }
 
         @Override

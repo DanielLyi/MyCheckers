@@ -15,7 +15,7 @@ public class Piece extends ImageIcon {
     private boolean needsToKill;
 
     /**
-     * Construct a new com.daniel.com.daniel.Piece object
+     * Construct a new com.com.daniel.Piece object
      * @param team int value 0 is black and 1 is red. Any other value sets to be -1
      * @param icon icon of the piece
      * @param rect the rectangle where you want the piece to be in
@@ -91,7 +91,7 @@ public class Piece extends ImageIcon {
     }
 
     public String toString(){
-        return "[com.daniel.com.daniel.Piece:team=" + team+",Position="+pos+",inFocus="+inFocus+",isKing="+isKing+",isMoving="+
+        return "[com.com.daniel.Piece:team=" + team+",Position="+pos+",inFocus="+inFocus+",isKing="+isKing+",isMoving="+
                 isMoving + "]";
     }
 
